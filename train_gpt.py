@@ -1348,6 +1348,7 @@ def main() -> None:
     # Sliding window eval
     if args.eval_stride > 0:
         base_model.load_state_dict(dequantize_state_dict_int8(quant_state), strict=True)
+        torch._dynamo.reset()
         torch.cuda.synchronize()
         t_sw = time.perf_counter()
         sw_val_loss, sw_val_bpb = eval_val_sliding(
